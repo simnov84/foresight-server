@@ -36,13 +36,15 @@ app.post("/insertDetails", (req, res) => {
 });
 
 app.put("/updateDetails", (req, res) => {
-  const stu = req.body.name;
-  const gra = req.body.grade;
-  const sqlUpdate = `UPDATE details SET grade = ${gra} WHERE name = '${stu}'`;
-  connection.query(sqlUpdate, [gra, stu], (error, result) => {
-    if (error) throw error;
-    else res.send("Updated Successfully");
-  });
+  if (req.body.name && req.body.grade) {
+    const stu = req.body.name;
+    const gra = req.body.grade;
+    const sqlUpdate = `UPDATE details SET grade = ${gra} WHERE name = '${stu}'`;
+    connection.query(sqlUpdate, [gra, stu], (error, result) => {
+      if (error) throw error;
+      else res.send("Updated Successfully");
+    });
+  } else res.send("No data");
 });
 
 app.delete("/deleteDetails/:name", (req, res) => {
